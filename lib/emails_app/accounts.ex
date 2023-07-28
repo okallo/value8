@@ -13,14 +13,6 @@ defmodule EmailsApp.Accounts do
   @doc """
   Gets a user by email.
 
-  ## Examples
-
-      iex> get_user_by_email("foo@example.com")
-      %User{}
-
-      iex> get_user_by_email("unknown@example.com")
-      nil
-
   """
   def get_user_by_email(email) when is_binary(email) do
     Repo.get_by(User, email_address: email)
@@ -28,14 +20,6 @@ defmodule EmailsApp.Accounts do
 
   @doc """
   Gets a user by email and password.
-
-  ## Examples
-
-      iex> get_user_by_email_and_password("foo@example.com", "correct_password")
-      %User{}
-
-      iex> get_user_by_email_and_password("foo@example.com", "invalid_password")
-      nil
 
   """
   def get_user_by_email_and_password(email, password)
@@ -49,14 +33,6 @@ defmodule EmailsApp.Accounts do
 
   Raises `Ecto.NoResultsError` if the User does not exist.
 
-  ## Examples
-
-      iex> get_user!(123)
-      %User{}
-
-      iex> get_user!(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_user!(id), do: Repo.get!(User, id)
 
@@ -64,14 +40,6 @@ defmodule EmailsApp.Accounts do
 
   @doc """
   Registers a user.
-
-  ## Examples
-
-      iex> register_user(%{field: value})
-      {:ok, %User{}}
-
-      iex> register_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
 
   """
   def register_user(attrs) do
@@ -83,11 +51,6 @@ defmodule EmailsApp.Accounts do
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
-  ## Examples
-
-      iex> change_user_registration(user)
-      %Ecto.Changeset{data: %User{}}
-
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false, validate_email: false)
@@ -98,11 +61,6 @@ defmodule EmailsApp.Accounts do
   @doc """
   Returns an `%Ecto.Changeset{}` for changing the user email.
 
-  ## Examples
-
-      iex> change_user_email(user)
-      %Ecto.Changeset{data: %User{}}
-
   """
   def change_user_email(user, attrs \\ %{}) do
     User.email_changeset(user, attrs, validate_email: false)
@@ -111,14 +69,6 @@ defmodule EmailsApp.Accounts do
   @doc """
   Emulates that the email will change without actually changing
   it in the database.
-
-  ## Examples
-
-      iex> apply_user_email(user, "valid password", %{email: ...})
-      {:ok, %User{}}
-
-      iex> apply_user_email(user, "invalid password", %{email: ...})
-      {:error, %Ecto.Changeset{}}
 
   """
   def apply_user_email(user, password, attrs) do
@@ -160,11 +110,6 @@ defmodule EmailsApp.Accounts do
   @doc ~S"""
   Delivers the update email instructions to the given user.
 
-  ## Examples
-
-      iex> deliver_user_update_email_instructions(user, current_email, &url(~p"/users/settings/confirm_email/#{&1})")
-      {:ok, %{to: ..., body: ...}}
-
   """
   def deliver_user_update_email_instructions(%User{} = user, current_email, update_email_url_fun)
       when is_function(update_email_url_fun, 1) do
@@ -177,11 +122,6 @@ defmodule EmailsApp.Accounts do
   @doc """
   Returns an `%Ecto.Changeset{}` for changing the user password.
 
-  ## Examples
-
-      iex> change_user_password(user)
-      %Ecto.Changeset{data: %User{}}
-
   """
   def change_user_password(user, attrs \\ %{}) do
     User.password_changeset(user, attrs, hash_password: false)
@@ -189,14 +129,6 @@ defmodule EmailsApp.Accounts do
 
   @doc """
   Updates the user password.
-
-  ## Examples
-
-      iex> update_user_password(user, "valid password", %{password: ...})
-      {:ok, %User{}}
-
-      iex> update_user_password(user, "invalid password", %{password: ...})
-      {:error, %Ecto.Changeset{}}
 
   """
   def update_user_password(user, password, attrs) do
@@ -247,14 +179,6 @@ defmodule EmailsApp.Accounts do
   @doc ~S"""
   Delivers the confirmation email instructions to the given user.
 
-  ## Examples
-
-      iex> deliver_user_confirmation_instructions(user, &url(~p"/users/confirm/#{&1}"))
-      {:ok, %{to: ..., body: ...}}
-
-      iex> deliver_user_confirmation_instructions(confirmed_user, &url(~p"/users/confirm/#{&1}"))
-      {:error, :already_confirmed}
-
   """
   def deliver_user_confirmation_instructions(%User{} = user, confirmation_url_fun)
       when is_function(confirmation_url_fun, 1) do
@@ -294,11 +218,6 @@ defmodule EmailsApp.Accounts do
   @doc ~S"""
   Delivers the reset password email to the given user.
 
-  ## Examples
-
-      iex> deliver_user_reset_password_instructions(user, &url(~p"/users/reset_password/#{&1}"))
-      {:ok, %{to: ..., body: ...}}
-
   """
   def deliver_user_reset_password_instructions(%User{} = user, reset_password_url_fun)
       when is_function(reset_password_url_fun, 1) do
@@ -309,14 +228,6 @@ defmodule EmailsApp.Accounts do
 
   @doc """
   Gets the user by reset password token.
-
-  ## Examples
-
-      iex> get_user_by_reset_password_token("validtoken")
-      %User{}
-
-      iex> get_user_by_reset_password_token("invalidtoken")
-      nil
 
   """
   def get_user_by_reset_password_token(token) do
@@ -331,14 +242,6 @@ defmodule EmailsApp.Accounts do
   @doc """
   Resets the user password.
 
-  ## Examples
-
-      iex> reset_user_password(user, %{password: "new long password", password_confirmation: "new long password"})
-      {:ok, %User{}}
-
-      iex> reset_user_password(user, %{password: "valid", password_confirmation: "not the same"})
-      {:error, %Ecto.Changeset{}}
-
   """
   def reset_user_password(user, attrs) do
     Ecto.Multi.new()
@@ -349,5 +252,101 @@ defmodule EmailsApp.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  alias EmailsApp.Accounts.Contact
+
+  @doc """
+  Returns the list of contacts.
+
+  ## Examples
+
+      iex> list_contacts()
+      [%Contact{}, ...]
+
+  """
+  def list_contacts do
+    Repo.all(Contact)
+  end
+
+  @doc """
+  Gets a single contact.
+
+  Raises `Ecto.NoResultsError` if the Contact does not exist.
+
+  ## Examples
+
+      iex> get_contact!(123)
+      %Contact{}
+
+      iex> get_contact!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_contact!(id), do: Repo.get!(Contact, id)
+
+  @doc """
+  Creates a contact.
+
+  ## Examples
+
+      iex> create_contact(%{field: value})
+      {:ok, %Contact{}}
+
+      iex> create_contact(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_contact(attrs \\ %{}) do
+    %Contact{}
+    |> Contact.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a contact.
+
+  ## Examples
+
+      iex> update_contact(contact, %{field: new_value})
+      {:ok, %Contact{}}
+
+      iex> update_contact(contact, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_contact(%Contact{} = contact, attrs) do
+    contact
+    |> Contact.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a contact.
+
+  ## Examples
+
+      iex> delete_contact(contact)
+      {:ok, %Contact{}}
+
+      iex> delete_contact(contact)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_contact(%Contact{} = contact) do
+    Repo.delete(contact)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking contact changes.
+
+  ## Examples
+
+      iex> change_contact(contact)
+      %Ecto.Changeset{data: %Contact{}}
+
+  """
+  def change_contact(%Contact{} = contact, attrs \\ %{}) do
+    Contact.changeset(contact, attrs)
   end
 end

@@ -54,39 +54,39 @@ defmodule EmailsApp.AccountsTest do
 
       assert %{
                password: ["can't be blank"],
-               email: ["can't be blank"]
+               email_address: ["can't be blank"]
              } = errors_on(changeset)
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid"})
+      {:error, changeset} = Accounts.register_user(%{email_address: "not valid", password: "not valid"})
 
       assert %{
-               email: ["must have the @ sign and no spaces"],
+              email_address: ["must have the @ sign and no spaces"],
                password: ["should be at least 12 character(s)"]
              } = errors_on(changeset)
     end
 
     test "validates maximum values for email and password for security" do
       too_long = String.duplicate("db", 100)
-      {:error, changeset} = Accounts.register_user(%{email: too_long, password: too_long})
-      assert "should be at most 160 character(s)" in errors_on(changeset).email
+      {:error, changeset} = Accounts.register_user(%{email_address: too_long, password: too_long})
+      assert "should be at most 160 character(s)" in errors_on(changeset).email_address
       assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
     test "validates email uniqueness" do
-      %{email: email} = user_fixture()
-      {:error, changeset} = Accounts.register_user(%{email: email})
+      %{email_address: email} = user_fixture()
+      {:error, changeset} = Accounts.register_user(%{email_address: email})
       assert "has already been taken" in errors_on(changeset).email
 
       # Now try with the upper cased email too, to check that email case is ignored.
-      {:error, changeset} = Accounts.register_user(%{email: String.upcase(email)})
+      {:error, changeset} = Accounts.register_user(%{email_address: String.upcase(email)})
       assert "has already been taken" in errors_on(changeset).email
     end
 
     test "registers users with a hashed password" do
       email = unique_user_email()
-      {:ok, user} = Accounts.register_user(valid_user_attributes(email: email))
+      {:ok, user} = Accounts.register_user(valid_user_attributes(email_address: email))
       assert user.email_address == email
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)
@@ -107,7 +107,7 @@ defmodule EmailsApp.AccountsTest do
       changeset =
         Accounts.change_user_registration(
           %User{},
-          valid_user_attributes(email: email, password: password)
+          valid_user_attributes(email_address: email, password: password)
         )
 
       assert changeset.valid?
@@ -131,44 +131,44 @@ defmodule EmailsApp.AccountsTest do
 
     test "requires email to change", %{user: user} do
       {:error, changeset} = Accounts.apply_user_email(user, valid_user_password(), %{})
-      assert %{email: ["did not change"]} = errors_on(changeset)
+      assert %{email_address: ["did not change"]} = errors_on(changeset)
     end
 
     test "validates email", %{user: user} do
       {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: "not valid"})
+        Accounts.apply_user_email(user, valid_user_password(), %{email_address: "not valid"})
 
-      assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
+      assert %{email_address: ["must have the @ sign and no spaces"]} = errors_on(changeset)
     end
 
     test "validates maximum value for email for security", %{user: user} do
       too_long = String.duplicate("db", 100)
 
       {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: too_long})
+        Accounts.apply_user_email(user, valid_user_password(), %{email_address: too_long})
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
     end
 
     test "validates email uniqueness", %{user: user} do
-      %{email: email} = user_fixture()
+      %{email_address: email} = user_fixture()
       password = valid_user_password()
 
-      {:error, changeset} = Accounts.apply_user_email(user, password, %{email: email})
+      {:error, changeset} = Accounts.apply_user_email(user, password, %{email_address: email})
 
       assert "has already been taken" in errors_on(changeset).email
     end
 
     test "validates current password", %{user: user} do
       {:error, changeset} =
-        Accounts.apply_user_email(user, "invalid", %{email: unique_user_email()})
+        Accounts.apply_user_email(user, "invalid", %{email_address: unique_user_email()})
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
 
     test "applies the email without persisting it", %{user: user} do
       email = unique_user_email()
-      {:ok, user} = Accounts.apply_user_email(user, valid_user_password(), %{email: email})
+      {:ok, user} = Accounts.apply_user_email(user, valid_user_password(), %{email_address: email})
       assert user.email_address == email
       assert Accounts.get_user!(user.id).email != email
     end
@@ -200,17 +200,17 @@ defmodule EmailsApp.AccountsTest do
 
       token =
         extract_user_token(fn url ->
-          Accounts.deliver_user_update_email_instructions(%{user | email: email}, user.email_address, url)
+          Accounts.deliver_user_update_email_instructions(%{user | email_address: email}, user.email_address, url)
         end)
 
-      %{user: user, token: token, email: email}
+      %{user: user, token: token, email_address: email}
     end
 
-    test "updates the email with a valid token", %{user: user, token: token, email: email} do
+    test "updates the email with a valid token", %{user: user, token: token, email_address: email} do
       assert Accounts.update_user_email(user, token) == :ok
       changed_user = Repo.get!(User, user.id)
-      assert changed_user.email != user.email_address
-      assert changed_user.email == email
+      assert changed_user.email_address != user.email_address
+      assert changed_user.email_address == email
       assert changed_user.confirmed_at
       assert changed_user.confirmed_at != user.confirmed_at
       refute Repo.get_by(UserToken, user_id: user.id)
@@ -218,20 +218,20 @@ defmodule EmailsApp.AccountsTest do
 
     test "does not update email with invalid token", %{user: user} do
       assert Accounts.update_user_email(user, "oops") == :error
-      assert Repo.get!(User, user.id).email == user.email_address
+      assert Repo.get!(User, user.id).email_address == user.email_address
       assert Repo.get_by(UserToken, user_id: user.id)
     end
 
     test "does not update email if user email changed", %{user: user, token: token} do
-      assert Accounts.update_user_email(%{user | email: "current@example.com"}, token) == :error
-      assert Repo.get!(User, user.id).email == user.email_address
+      assert Accounts.update_user_email(%{user | email_address: "current@example.com"}, token) == :error
+      assert Repo.get!(User, user.id).email_address == user.email_address
       assert Repo.get_by(UserToken, user_id: user.id)
     end
 
     test "does not update email if token expired", %{user: user, token: token} do
       {1, nil} = Repo.update_all(UserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
       assert Accounts.update_user_email(user, token) == :error
-      assert Repo.get!(User, user.id).email == user.email_address
+      assert Repo.get!(User, user.id).email_address == user.email_address
       assert Repo.get_by(UserToken, user_id: user.id)
     end
   end
@@ -503,6 +503,58 @@ defmodule EmailsApp.AccountsTest do
   describe "inspect/2 for the User module" do
     test "does not include password" do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
+    end
+  end
+
+  describe "contacts" do
+    alias EmailsApp.Accounts.Contact
+
+    import EmailsApp.AccountsFixtures
+
+    @invalid_attrs %{}
+
+    test "list_contacts/0 returns all contacts" do
+      contact = contact_fixture()
+      assert Accounts.list_contacts() == [contact]
+    end
+
+    test "get_contact!/1 returns the contact with given id" do
+      contact = contact_fixture()
+      assert Accounts.get_contact!(contact.id) == contact
+    end
+
+    test "create_contact/1 with valid data creates a contact" do
+      valid_attrs = %{}
+
+      assert {:ok, %Contact{} = contact} = Accounts.create_contact(valid_attrs)
+    end
+
+    test "create_contact/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_contact(@invalid_attrs)
+    end
+
+    test "update_contact/2 with valid data updates the contact" do
+      contact = contact_fixture()
+      update_attrs = %{}
+
+      assert {:ok, %Contact{} = contact} = Accounts.update_contact(contact, update_attrs)
+    end
+
+    test "update_contact/2 with invalid data returns error changeset" do
+      contact = contact_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_contact(contact, @invalid_attrs)
+      assert contact == Accounts.get_contact!(contact.id)
+    end
+
+    test "delete_contact/1 deletes the contact" do
+      contact = contact_fixture()
+      assert {:ok, %Contact{}} = Accounts.delete_contact(contact)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_contact!(contact.id) end
+    end
+
+    test "change_contact/1 returns a contact changeset" do
+      contact = contact_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_contact(contact)
     end
   end
 end
