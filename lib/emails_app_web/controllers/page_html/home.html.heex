@@ -1,54 +1,155 @@
 <.flash_group flash={@flash} />
- <!-- Hero Section -->
-    <section class="bg-blue-500 py-20 text-white text-center">
-      <div class="container mx-auto">
-        <h1 class="text-4xl font-semibold mb-4">Welcome to Email App</h1>
-        <p class="text-lg">
-          We Demonstrate Activities Involving Emails 
-        </p>
-        <a
-          href={~p"/users/register"}
-          class="bg-blue-600 hover:bg-blue-700 px-6 py-3 mt-6 inline-block rounded-lg font-semibold"
+<!-- Hero Section -->
+<section
+  class=" py-20  text-center"
+  style="
+    background-image: url('https://oroinc.com/oroplatform/wp-content/themes/oroplatform/images/download/hero.svg');
+    object-fit: cover;
+    background-repeat: no-repeat;
+    margin: 5em;
+"
+>
+  <div class="container text-right">
+    <h3 class="text-4xl mb-4">Welcome to Email App</h3>
+    <a
+      href={~p"/users/register"}
+      class="bg-blue-600 hover:bg-blue-700 px-6 py-3 mt-6 inline-block rounded-lg font-semibold text-white"
+    >
+      Lets Begin
+    </a>
+  </div>
+</section>
+<!-- Features Section -->
+<section class="py-10">
+  <div class="container mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="max-w-sm w-full lg:max-w-full lg:flex rounded-lg shadow-md">
+        <div
+          class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden p-6 "
+          style="background-image: url('https://icons.veryicon.com/png/o/business/multi-color-financial-and-business-icons/user-140.png')"
+          title="Woman holding a mug"
         >
-          Lets Begin
-        </a>
-      </div>
-    </section>
-    <!-- Features Section -->
-    <section class="py-10">
-      <div class="container mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Feature 1 -->
-          <div class="bg-white p-6 rounded-lg shadow-md">
-            <i class="text-blue-500 text-4xl mb-4 fas fa-globe"></i>
-            <h2 class="text-xl font-semibold mb-2">User</h2>
-            <p>Thee are two types of users, Normal user and Gold user who has elavated previlages over the former</p>
+        </div>
+        <div class=" rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+          <div class="mb-8">
+            <p class="text-sm text-gray-600 flex items-center">
+              <svg
+                class="fill-current text-gray-500 w-3 h-3 mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+              </svg>
+              Users
+            </p>
+            <div class="text-gray-900 font-bold text-xl mb-2"></div>
+            <p class="text-gray-700 text-base">
+              Thee are two types of users, Normal user and Gold user who has elavated previlages over the former.
+            </p>
           </div>
-          <!-- Feature 2 -->
-          <div class="bg-white p-6 rounded-lg shadow-md">
-            <i class="text-blue-500 text-4xl mb-4 fas fa-code"></i>
-            <h2 class="text-xl font-semibold mb-2">Admin</h2>
-            <p>The admin is the default system manager responsible for all the users in the system.</p>
-          </div>
-          <!-- Feature 3 -->
-          <div class="bg-white p-6 rounded-lg shadow-md">
-            <i class="text-blue-500 text-4xl mb-4 fas fa-heart"></i>
-            <h2 class="text-xl font-semibold mb-2">SuperUser</h2>
-            <p>Is an elevated prilaged admin who manages administrators and users.</p>
+          <div class="flex items-center">
+            <img
+              class="w-10 h-10 rounded-full mr-4"
+              src="https://icons.veryicon.com/png/o/business/multi-color-financial-and-business-icons/user-140.png"
+              alt="Avatar of Jonathan Reinink"
+            />
+            <div class="text-sm">
+              <p class="text-gray-900 leading-none"></p>
+              <p class="text-gray-600"></p>
+            </div>
           </div>
         </div>
       </div>
-    </section>
-    <!-- Call to Action Section -->
-    <section class="bg-blue-500 py-10 text-white text-center">
-      <div class="container mx-auto">
-        <h2 class="text-3xl font-semibold mb-2">Ready to Get Started?</h2>
-        <p class="text-lg">Tried to make it simple and fun to navigate and operate</p>
-        <a
-          href={~p"/users/register"}
-          class="bg-blue-600 hover:bg-blue-700 px-6 py-3 mt-6 inline-block rounded-lg font-semibold"
+      <!-- Feature 2 -->
+      <div class="max-w-sm w-full lg:max-w-full lg:flex rounded-lg shadow-md">
+        <div
+          class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden p-6 rounded-lg shadow-md"
+          style="background-image: url('https://icons.veryicon.com/png/Avatar/Free%20Large%20Boss/Admin.png')"
+          title="Woman holding a mug"
         >
-          Sign Up Now
-        </a>
+        </div>
+        <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+          <div class="mb-8">
+            <p class="text-sm text-gray-600 flex items-center">
+              <svg
+                class="fill-current text-gray-500 w-3 h-3 mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+              </svg>
+              Admins
+            </p>
+            <div class="text-gray-900 font-bold text-xl mb-2"></div>
+            <p class="text-gray-700 text-base">
+              The admin is the default system manager responsible for all the users in the system.
+            </p>
+          </div>
+          <div class="flex items-center">
+            <img
+              class="w-10 h-10 rounded-full mr-4"
+              src="https://icons.veryicon.com/png/Avatar/Free%20Large%20Boss/Admin.png"
+              alt="Avatar of Jonathan Reinink"
+            />
+            <div class="text-sm">
+              <p class="text-gray-900 leading-none"></p>
+              <p class="text-gray-600"></p>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+
+      <div class="max-w-sm w-full lg:max-w-full lg:flex rounded-lg shadow-md">
+        <div
+          class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden p-6 "
+          style="background-image: url('https://icons.veryicon.com/png/System/Ecommerce%20Business/admin.png')"
+          title="Woman holding a mug"
+        >
+        </div>
+        <div class=" rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+          <div class="mb-8">
+            <p class="text-sm text-gray-600 flex items-center">
+              <svg
+                class="fill-current text-gray-500 w-3 h-3 mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+              </svg>
+              Super Users
+            </p>
+            <div class="text-gray-900 font-bold text-xl mb-2"></div>
+            <p class="text-gray-700 text-base">
+              Is an elevated prilaged admin who manages administrators and users.
+            </p>
+          </div>
+          <div class="flex items-center">
+            <img
+              class="w-10 h-10 rounded-full mr-4"
+              src="https://icons.veryicon.com/png/System/Ecommerce%20Business/admin.png"
+              alt="Avatar of Jonathan Reinink"
+            />
+            <div class="text-sm">
+              <p class="text-gray-900 leading-none"></p>
+              <p class="text-gray-600"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Call to Action Section -->
+<section class=" py-10 text-center">
+  <div class="container mx-auto">
+    <h2 class="text-3xl font-semibold mb-2">Ready to Get Started?</h2>
+    <p class="text-lg">Tried to make it simple and fun to navigate and operate</p>
+    <a
+      href={~p"/users/register"}
+      class="bg-blue-600 hover:bg-blue-700 px-6 py-3 mt-6 inline-block rounded-lg font-semibold text-white"
+    >
+      Sign Up Now
+    </a>
+  </div>
+</section>

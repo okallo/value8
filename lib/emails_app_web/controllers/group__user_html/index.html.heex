@@ -1,0 +1,22 @@
+<.header>
+  Listing Group users
+  <:actions>
+    <.link href={~p"/group_users/new"}>
+      <.button>New Group  user</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="group_users" rows={@group_users} row_click={&JS.navigate(~p"/group_users/#{&1}")}>
+  <:action :let={group__user}>
+    <div class="sr-only">
+      <.link navigate={~p"/group_users/#{group__user}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/group_users/#{group__user}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={group__user}>
+    <.link href={~p"/group_users/#{group__user}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

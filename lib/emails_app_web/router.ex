@@ -56,6 +56,10 @@ defmodule EmailsAppWeb.Router do
       live "/users/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
       live "/users/reset_password/:token", UserResetPasswordLive, :edit
+      get "/groups", GroupController, :index
+      get "/group_users", Group_UserController, :index 
+      get "/groups/:id", GroupController, :edit
+      get "/group_user/:id", Group_UserController, :edit
      
     end
 

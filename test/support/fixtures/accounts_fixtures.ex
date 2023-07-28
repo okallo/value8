@@ -28,4 +28,18 @@ defmodule EmailsApp.AccountsFixtures do
     [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
     token
   end
+
+  @doc """
+  Generate a contact.
+  """
+  def contact_fixture(attrs \\ %{}) do
+    {:ok, contact} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> EmailsApp.Accounts.create_contact()
+
+    contact
+  end
 end
