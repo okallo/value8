@@ -12,6 +12,7 @@
   rows={@streams.contact}
   row_click={fn {_id, contacts} -> JS.navigate(~p"/contact/#{contacts}") end}
 >
+  if !is_nil(@col) && !Enum.empty?(@col) do
   <:action :let={{_id, contacts}}>
     <div class="sr-only">
       <.link navigate={~p"/contact/#{contacts}"}>Show</.link>
@@ -26,9 +27,17 @@
       Delete
     </.link>
   </:action>
+  else
+  <:col>No data</:col>
+  end
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="contacts-modal" show on_cancel={JS.patch(~p"/contact")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="contacts-modal"
+  show
+  on_cancel={JS.patch(~p"/contact")}
+>
   <.live_component
     module={EmailsAppWeb.ContactsLive.FormComponent}
     id={@contacts.id || :new}
