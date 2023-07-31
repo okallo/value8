@@ -56,11 +56,8 @@ defmodule EmailsAppWeb.Router do
       live "/users/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
       live "/users/reset_password/:token", UserResetPasswordLive, :edit
-      get "/groups", GroupController, :index
-      get "/group_users", Group_UserController, :index 
-      get "/groups/:id", GroupController, :edit
-      get "/group_user/:id", Group_UserController, :edit
-     
+
+
     end
 
     post "/users/log_in", UserSessionController, :create
@@ -85,6 +82,27 @@ defmodule EmailsAppWeb.Router do
       on_mount: [{EmailsAppWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
+      live "/contacts", ContactsLive.Index, :index
+      live "/contact/new", ContactsLive.Index, :new
+      live "/contact/:id/edit", ContactsLive.Index, :edit
+      live "/contact/:id", ContactsLive.Show, :show
+      live "/contact/:id/show/edit", ContactsLive.Show, :edit
+      live "/groups", GroupsLive.Index, :index
+      live "/group/new", GroupsLive.Index, :new
+      live "/group/:id/edit", GroupsLive.Index, :edit
+      live "/group/:id", GroupsLive.Show, :show
+      live "/group/:id/show/edit", GroupsLive.Show, :edit
+      live "/group_users", Group_usersLive.Index, :index
+      live "/group_user/new", Group_usersLive.Index, :new
+      live "/group_user/:id/edit", Group_usersLive.Index, :edit
+      live "/group_user/:id", Group_usersLive.Show, :show
+      live "/group_user/:id/show/edit", Group_usersLive.Show, :edit
+      live "/user_emails", User_EmailsLive.Index, :index
+      live "/user_email/new", User_EmailsLive.Index, :new
+      live "/user_email/:id/edit", User_EmailsLive.Index, :edit
+      live "/user_email/:id", User_EmailsLive.Show, :show
+      live "/user_email/:id/show/edit", User_EmailsLive.Show, :edit
+
     end
   end
 end

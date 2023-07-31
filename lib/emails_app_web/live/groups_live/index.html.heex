@@ -1,0 +1,47 @@
+<.header>
+  Listing Group
+  <:actions>
+    <.link patch={~p"/group/new"}>
+      <.button>New Group</.button>
+    </.link>
+  </:actions>
+</.header>
+
+
+<.table
+  id="group"
+  rows={@streams.group}
+  row_click={fn {_id, groups} -> JS.navigate(~p"/group/#{groups}") end}
+>
+if !is_nil(@col) && !Enum.empty?(@col) do
+ <:col :let={{_id, groups}} label="Name"><%= groups.name %></:col>
+  <:action :let={{_id, groups}}>
+    <div class="sr-only">
+      <.link navigate={~p"/group/#{groups}"}>Show</.link>
+    </div>
+    <.link patch={~p"/group/#{groups}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, groups}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: groups.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+else
+ <:col>No data</:col>
+end
+ 
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="groups-modal" show on_cancel={JS.patch(~p"/group")}>
+  <.live_component
+    module={EmailsAppWeb.GroupsLive.FormComponent}
+    id={@groups.id || :new}
+    title={@page_title}
+    action={@live_action}
+    groups={@groups}
+    patch={~p"/group"}
+  />
+</.modal>

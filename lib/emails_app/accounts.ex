@@ -254,99 +254,99 @@ defmodule EmailsApp.Accounts do
     end
   end
 
-  alias EmailsApp.Accounts.Contact
+  alias EmailsApp.Accounts.Contacts
 
   @doc """
-  Returns the list of contacts.
+  Returns the list of contact.
 
   ## Examples
 
-      iex> list_contacts()
-      [%Contact{}, ...]
+      iex> list_contact()
+      [%Contacts{}, ...]
 
   """
-  def list_contacts do
-    Repo.all(Contact)
+  def list_contact do
+    Repo.all(Contacts)
   end
 
   @doc """
-  Gets a single contact.
+  Gets a single contacts.
 
-  Raises `Ecto.NoResultsError` if the Contact does not exist.
+  Raises `Ecto.NoResultsError` if the Contacts does not exist.
 
   ## Examples
 
-      iex> get_contact!(123)
-      %Contact{}
+      iex> get_contacts!(123)
+      %Contacts{}
 
-      iex> get_contact!(456)
+      iex> get_contacts!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_contact!(id), do: Repo.get!(Contact, id)
+  def get_contacts!(id), do: Repo.get!(Contacts, id)
 
   @doc """
-  Creates a contact.
+  Creates a contacts.
 
   ## Examples
 
-      iex> create_contact(%{field: value})
-      {:ok, %Contact{}}
+      iex> create_contacts(%{field: value})
+      {:ok, %Contacts{}}
 
-      iex> create_contact(%{field: bad_value})
+      iex> create_contacts(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_contact(attrs \\ %{}) do
-    %Contact{}
-    |> Contact.changeset(attrs)
+  def create_contacts(attrs \\ %{}) do
+    %Contacts{}
+    |> Contacts.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a contact.
+  Updates a contacts.
 
   ## Examples
 
-      iex> update_contact(contact, %{field: new_value})
-      {:ok, %Contact{}}
+      iex> update_contacts(contacts, %{field: new_value})
+      {:ok, %Contacts{}}
 
-      iex> update_contact(contact, %{field: bad_value})
+      iex> update_contacts(contacts, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_contact(%Contact{} = contact, attrs) do
-    contact
-    |> Contact.changeset(attrs)
+  def update_contacts(%Contacts{} = contacts, attrs) do
+    contacts
+    |> Contacts.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a contact.
+  Deletes a contacts.
 
   ## Examples
 
-      iex> delete_contact(contact)
-      {:ok, %Contact{}}
+      iex> delete_contacts(contacts)
+      {:ok, %Contacts{}}
 
-      iex> delete_contact(contact)
+      iex> delete_contacts(contacts)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_contact(%Contact{} = contact) do
-    Repo.delete(contact)
+  def delete_contacts(%Contacts{} = contacts) do
+    Repo.delete(contacts)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking contact changes.
+  Returns an `%Ecto.Changeset{}` for tracking contacts changes.
 
   ## Examples
 
-      iex> change_contact(contact)
-      %Ecto.Changeset{data: %Contact{}}
+      iex> change_contacts(contacts)
+      %Ecto.Changeset{data: %Contacts{}}
 
   """
-  def change_contact(%Contact{} = contact, attrs \\ %{}) do
-    Contact.changeset(contact, attrs)
+  def change_contacts(%Contacts{} = contacts, attrs \\ %{}) do
+    Contacts.changeset(contacts, attrs)
   end
 end

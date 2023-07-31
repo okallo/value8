@@ -1,0 +1,25 @@
+<.header>
+  Contacts <%= @contacts.id %>
+  <:subtitle>This is a contacts record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/contact/#{@contacts}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit contacts</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+</.list>
+
+<.back navigate={~p"/contact"}>Back to contact</.back>
+
+<.modal :if={@live_action == :edit} id="contacts-modal" show on_cancel={JS.patch(~p"/contact/#{@contacts}")}>
+  <.live_component
+    module={EmailsAppWeb.ContactsLive.FormComponent}
+    id={@contacts.id}
+    title={@page_title}
+    action={@live_action}
+    contacts={@contacts}
+    patch={~p"/contact/#{@contacts}"}
+  />
+</.modal>

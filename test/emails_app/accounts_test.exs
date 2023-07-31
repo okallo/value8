@@ -557,4 +557,56 @@ defmodule EmailsApp.AccountsTest do
       assert %Ecto.Changeset{} = Accounts.change_contact(contact)
     end
   end
+
+  describe "contact" do
+    alias EmailsApp.Accounts.Contacts
+
+    import EmailsApp.AccountsFixtures
+
+    @invalid_attrs %{}
+
+    test "list_contact/0 returns all contact" do
+      contacts = contacts_fixture()
+      assert Accounts.list_contact() == [contacts]
+    end
+
+    test "get_contacts!/1 returns the contacts with given id" do
+      contacts = contacts_fixture()
+      assert Accounts.get_contacts!(contacts.id) == contacts
+    end
+
+    test "create_contacts/1 with valid data creates a contacts" do
+      valid_attrs = %{}
+
+      assert {:ok, %Contacts{} = contacts} = Accounts.create_contacts(valid_attrs)
+    end
+
+    test "create_contacts/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_contacts(@invalid_attrs)
+    end
+
+    test "update_contacts/2 with valid data updates the contacts" do
+      contacts = contacts_fixture()
+      update_attrs = %{}
+
+      assert {:ok, %Contacts{} = contacts} = Accounts.update_contacts(contacts, update_attrs)
+    end
+
+    test "update_contacts/2 with invalid data returns error changeset" do
+      contacts = contacts_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_contacts(contacts, @invalid_attrs)
+      assert contacts == Accounts.get_contacts!(contacts.id)
+    end
+
+    test "delete_contacts/1 deletes the contacts" do
+      contacts = contacts_fixture()
+      assert {:ok, %Contacts{}} = Accounts.delete_contacts(contacts)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_contacts!(contacts.id) end
+    end
+
+    test "change_contacts/1 returns a contacts changeset" do
+      contacts = contacts_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_contacts(contacts)
+    end
+  end
 end

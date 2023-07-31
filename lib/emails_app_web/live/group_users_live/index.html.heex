@@ -1,0 +1,40 @@
+<.header>
+  Listing Group user
+  <:actions>
+    <.link patch={~p"/group_user/new"}>
+      <.button>New Group users</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="group_user"
+  rows={@streams.group_user}
+  row_click={fn {_id, group_users} -> JS.navigate(~p"/group_user/#{group_users}") end}
+>
+  <:action :let={{_id, group_users}}>
+    <div class="sr-only">
+      <.link navigate={~p"/group_user/#{group_users}"}>Show</.link>
+    </div>
+    <.link patch={~p"/group_user/#{group_users}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, group_users}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: group_users.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="group_users-modal" show on_cancel={JS.patch(~p"/group_user")}>
+  <.live_component
+    module={EmailsAppWeb.Group_usersLive.FormComponent}
+    id={@group_users.id || :new}
+    title={@page_title}
+    action={@live_action}
+    group_users={@group_users}
+    patch={~p"/group_user"}
+  />
+</.modal>

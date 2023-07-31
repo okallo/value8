@@ -1,0 +1,40 @@
+<.header>
+  Listing Contact
+  <:actions>
+    <.link patch={~p"/contact/new"}>
+      <.button>New Contacts</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="contact"
+  rows={@streams.contact}
+  row_click={fn {_id, contacts} -> JS.navigate(~p"/contact/#{contacts}") end}
+>
+  <:action :let={{_id, contacts}}>
+    <div class="sr-only">
+      <.link navigate={~p"/contact/#{contacts}"}>Show</.link>
+    </div>
+    <.link patch={~p"/contact/#{contacts}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, contacts}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: contacts.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="contacts-modal" show on_cancel={JS.patch(~p"/contact")}>
+  <.live_component
+    module={EmailsAppWeb.ContactsLive.FormComponent}
+    id={@contacts.id || :new}
+    title={@page_title}
+    action={@live_action}
+    contacts={@contacts}
+    patch={~p"/contact"}
+  />
+</.modal>

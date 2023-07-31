@@ -1,0 +1,28 @@
+<.header>
+  User  emails <%= @user__emails.id %>
+  <:subtitle>This is a user__emails record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/user_email/#{@user__emails}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit user__emails</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Subject"><%= @user__emails.subject %></:item>
+  <:item title="Content"><%= @user__emails.content %></:item>
+  <:item title="Status"><%= @user__emails.status %></:item>
+</.list>
+
+<.back navigate={~p"/user_email"}>Back to user_email</.back>
+
+<.modal :if={@live_action == :edit} id="user__emails-modal" show on_cancel={JS.patch(~p"/user_email/#{@user__emails}")}>
+  <.live_component
+    module={EmailsAppWeb.User_EmailsLive.FormComponent}
+    id={@user__emails.id}
+    title={@page_title}
+    action={@live_action}
+    user__emails={@user__emails}
+    patch={~p"/user_email/#{@user__emails}"}
+  />
+</.modal>

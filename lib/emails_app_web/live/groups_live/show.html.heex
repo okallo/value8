@@ -1,0 +1,26 @@
+<.header>
+  Groups <%= @groups.id %>
+  <:subtitle>This is a groups record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/group/#{@groups}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit groups</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @groups.name %></:item>
+</.list>
+
+<.back navigate={~p"/group"}>Back to group</.back>
+
+<.modal :if={@live_action == :edit} id="groups-modal" show on_cancel={JS.patch(~p"/group/#{@groups}")}>
+  <.live_component
+    module={EmailsAppWeb.GroupsLive.FormComponent}
+    id={@groups.id}
+    title={@page_title}
+    action={@live_action}
+    groups={@groups}
+    patch={~p"/group/#{@groups}"}
+  />
+</.modal>
