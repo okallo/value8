@@ -2,6 +2,7 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
   use EmailsAppWeb, :live_component
 
   alias EmailsApp.MyEmail
+  alias EmailsApp.Accounts.UserToken
 
   @impl true
   def render(assigns) do
@@ -16,11 +17,12 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         for={@form}
         id="user__emails-form"
         phx-target={@myself}
-        phx-change="validate"
         phx-submit="save"
+        phx-change="validate"
       >
         <.input field={@form[:to]} type="text" label="To" />
-        <%!-- <.input field={@form[:from]} type="text" label="From" hidden /> --%>
+        <.input field={@form[:from]} type="text" label="From" value={@socket.id} /> 
+        
         <.input field={@form[:subject]} type="text" label="Subject" />
         <.input field={@form[:content]} type="text" label="Content" />
         <%!-- <.input field={@form[:status]} type="checkbox" label="Status" /> --%>
@@ -43,14 +45,14 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
   end
 
   @impl true
-  # def handle_event("validate", %{"user__emails" => user__emails_params}, socket) do
-  #   changeset =
-  #     socket.assigns.user__emails
-  #     |> MyEmail.change_user__emails(user__emails_params)
-  #     |> Map.put(:action, :validate)
+  def handle_event("validate", %{"user__emails" => user__emails_params}, socket) do
+    changeset =
+      socket.assigns.user__emails
+      |> MyEmail.change_user__emails(user__emails_params)
+      |> Map.put(:action, :validate)
 
-  #   {:noreply, assign_form(socket, changeset)}
-  # end
+    {:noreply, assign_form(socket, changeset)}
+  end
 
   def handle_event("save", %{"user__emails" => user__emails_params}, socket) do
     save_user__emails(socket, socket.assigns.action, user__emails_params)
