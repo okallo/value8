@@ -15,7 +15,7 @@ defmodule EmailsApp.MyEmail.User_Emails do
   @doc false
   def changeset(user__emails, attrs) do
     user__emails
-    |> cast(attrs, [:subject, :content, :status])
+    |> cast(attrs, [:subject, :content, :status, :from, :to])
     |> validate_required([:subject, :content, :status])
   end
 end

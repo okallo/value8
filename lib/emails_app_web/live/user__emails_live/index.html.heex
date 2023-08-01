@@ -15,6 +15,9 @@
   <:col :let={{_id, user__emails}} label="Subject"><%= user__emails.subject %></:col>
   <:col :let={{_id, user__emails}} label="Content"><%= user__emails.content %></:col>
   <:col :let={{_id, user__emails}} label="Status"><%= user__emails.status %></:col>
+  <:col :let={{_id, user__emails}} label="From"><%= user__emails.from %></:col>
+  <:col :let={{_id, user__emails}} label="To"><%= user__emails.to %></:col>
+  <:col :let={{_id, user__emails}} label="Date"><%= user__emails.inserted_at %></:col>
   <:action :let={{_id, user__emails}}>
     <div class="sr-only">
       <.link navigate={~p"/user_email/#{user__emails}"}>Show</.link>
