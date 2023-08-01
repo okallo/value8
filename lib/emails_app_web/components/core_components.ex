@@ -656,6 +656,10 @@ defmodule EmailsAppWeb.CoreComponents do
     end
   end
 
+#   <%= if @current_user do %>
+#   <.sidebar_nav current_user={@current_user} active_tab={@active_tab}/>
+# <% end %>
+
   @doc """
   Translates the errors for a field from a keyword list of errors.
   """
