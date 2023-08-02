@@ -15,7 +15,10 @@ defmodule EmailsApp.MyEmail do
 
   """
   def list_user_email do
-    Repo.all(User_Emails)
+    query =
+      from e in User_Emails,
+      where: e.to_user == "clayne.co25@gmail.com"
+    Repo.all(query)
   end
 
   @doc """

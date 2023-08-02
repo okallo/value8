@@ -2,8 +2,6 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
   use EmailsAppWeb, :live_component
 
   alias EmailsApp.MyEmail
-  alias EmailsApp.MyEmail.User_Emails
-  alias EmailsApp.Repo
 
   @impl true
   def render(assigns) do
@@ -18,17 +16,19 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         for={@form}
         id="user__emails-form"
         phx-target={@myself}
-        phx-submit="save"
+        phx-submit="send_email"
         phx-change="validate"
       >
         <.input field={@form[:to_user]} type="text" label="To" />
-        <%!-- <.input field={@form[:from_user]} type="text" label="From" value={@socket.id} />  --%>
-
+        <%= if @current_user do %>
+          <.input field={@form[:from_user]} type="text" label="From" value={@current_user.email_address} /> 
+        <% end %>
         <.input field={@form[:subject]} type="text" label="Subject" />
         <.input field={@form[:content]} type="text" label="Content" />
+        
         <%!-- <.input field={@form[:status]} type="checkbox" label="Status" /> --%>
         <:actions>
-          <.button phx-disable-with="Saving...">Save User  emails</.button>
+          <.button phx-disable-with="Saving..." >Save User  emails</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -47,6 +47,7 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"user__emails" => user__emails_params}, socket) do
+    IO.inspect(socket)
     changeset =
       socket.assigns.user__emails
       |> MyEmail.change_user__emails(user__emails_params)
@@ -57,17 +58,25 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
 
   def handle_event("save", %{"user__emails" => user__emails_params}, socket) do
     save_user__emails(socket, socket.assigns.action, user__emails_params)
-    case User_Emails.send_email(user__emails_params) do
-      {:ok, _} ->
-        updated_email = User_Emails.update_status_changeset(user__emails_params, "sent")
-        Repo.update(updated_email)
+  end
 
-      {:error, _} ->
-        updated_email = User_Emails.update_status_changeset(user__emails_params, "not_sent")
-        Repo.update(updated_email)
+  def handle_event("send_email", %{"email_params" => email_params}, socket) do
+    send_email_and_save_to_db(socket, socket.assigns.action, email_params)
+  end
+
+  def send_email_and_save_to_db(socket, :send_email, attrs) do
+    case EmailsApp.Mailer.deliver(attrs, :to_user, :from_user, :subject, :content, :status) do
+      {:ok, _info} ->
+         
+        notify_parent({:save, attrs})
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "User  emails sent successfully")
+         |> push_patch(to: socket.assigns.patch)}
+      {:error, reason} ->
+        {:error, "Email sending failed: #{reason}"}
     end
-
-   
   end
 
   defp save_user__emails(socket, :edit, user__emails_params) do
@@ -84,8 +93,6 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         {:noreply, assign_form(socket, changeset)}
     end
   end
-
-
 
   defp save_user__emails(socket, :new, user__emails_params) do
     case MyEmail.create_user__emails(user__emails_params) do

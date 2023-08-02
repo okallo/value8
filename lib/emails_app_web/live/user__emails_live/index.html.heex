@@ -22,7 +22,7 @@
     <div class="sr-only">
       <.link navigate={~p"/user_email/#{user__emails}"}>Show</.link>
     </div>
-    <.link patch={~p"/user_email/#{user__emails}/edit"}>Edit</.link>
+    <%!-- <.link patch={~p"/user_email/#{user__emails}/edit"}>Edit</.link> --%>
   </:action>
   <:action :let={{id, user__emails}}>
     <.link

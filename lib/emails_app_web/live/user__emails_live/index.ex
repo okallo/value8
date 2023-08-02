@@ -1,13 +1,20 @@
 defmodule EmailsAppWeb.User_EmailsLive.Index do
   use EmailsAppWeb, :live_view
-
+  
   alias EmailsApp.MyEmail
   alias EmailsApp.MyEmail.User_Emails
-
+  alias EmailsApp.Accounts
+ 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, stream(socket, :user_email, MyEmail.list_user_email())}
+  def mount(_params, session, socket) do
+    current_user = EmailsApp.Accounts.get_user_by_session_token()
+    streams_emails = MyEmail.list_user_email()
+    {:ok,
+    socket
+    |> assign(:current_user, current_user)
+    |> streams(socket, :user_email, streams_emails)}
   end
+
 
   @impl true
   def handle_params(params, _url, socket) do
@@ -31,7 +38,6 @@ defmodule EmailsAppWeb.User_EmailsLive.Index do
     |> assign(:page_title, "Listing User email")
     |> assign(:user__emails, nil)
   end
-
   @impl true
   def handle_info({EmailsAppWeb.User_EmailsLive.FormComponent, {:saved, user__emails}}, socket) do
     {:noreply, stream_insert(socket, :user_email, user__emails)}
