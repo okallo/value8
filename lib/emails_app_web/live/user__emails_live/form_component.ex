@@ -2,7 +2,8 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
   use EmailsAppWeb, :live_component
 
   alias EmailsApp.MyEmail
-  alias EmailsApp.Accounts.UserToken
+  alias EmailsApp.MyEmail.User_Emails
+  alias EmailsApp.Repo
 
   @impl true
   def render(assigns) do
@@ -20,9 +21,9 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         phx-submit="save"
         phx-change="validate"
       >
-        <.input field={@form[:to]} type="text" label="To" />
-        <.input field={@form[:from]} type="text" label="From" value={@socket.id} /> 
-        
+        <.input field={@form[:to_user]} type="text" label="To" />
+        <%!-- <.input field={@form[:from_user]} type="text" label="From" value={@socket.id} />  --%>
+
         <.input field={@form[:subject]} type="text" label="Subject" />
         <.input field={@form[:content]} type="text" label="Content" />
         <%!-- <.input field={@form[:status]} type="checkbox" label="Status" /> --%>
@@ -56,6 +57,17 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
 
   def handle_event("save", %{"user__emails" => user__emails_params}, socket) do
     save_user__emails(socket, socket.assigns.action, user__emails_params)
+    case User_Emails.send_email(user__emails_params) do
+      {:ok, _} ->
+        updated_email = User_Emails.update_status_changeset(user__emails_params, "sent")
+        Repo.update(updated_email)
+
+      {:error, _} ->
+        updated_email = User_Emails.update_status_changeset(user__emails_params, "not_sent")
+        Repo.update(updated_email)
+    end
+
+   
   end
 
   defp save_user__emails(socket, :edit, user__emails_params) do
@@ -72,6 +84,8 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         {:noreply, assign_form(socket, changeset)}
     end
   end
+
+
 
   defp save_user__emails(socket, :new, user__emails_params) do
     case MyEmail.create_user__emails(user__emails_params) do

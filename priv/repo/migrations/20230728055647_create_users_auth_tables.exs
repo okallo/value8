@@ -1,11 +1,12 @@
 defmodule EmailsApp.Repo.Migrations.CreateUsersAuthTables do
   use Ecto.Migration
 
- def change do
+  def change do
     execute "CREATE EXTENSION IF NOT EXISTS citext", ""
     execute("CREATE TYPE role AS ENUM ('user','admin','superuser','gold');")
+
     create table(:users) do
-      add :email_address, :citext, null: false
+      add :email_address, :citext, unique: true, null: false
       add :first_name, :string, null: false
       add :last_name, :string, null: false
       add :msisdn, :string, null: false
@@ -14,6 +15,7 @@ defmodule EmailsApp.Repo.Migrations.CreateUsersAuthTables do
       add :role, :role, null: false
       timestamps()
     end
+
     create unique_index(:users, [:email_address])
 
     create table(:users_tokens) do

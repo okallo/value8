@@ -2,7 +2,7 @@
   Listing User email
   <:actions>
     <.link patch={~p"/user_email/new"}>
-      <.button>New User  emails</.button>
+      <.button>Send New Email</.button>
     </.link>
   </:actions>
 </.header>
@@ -15,8 +15,8 @@
   <:col :let={{_id, user__emails}} label="Subject"><%= user__emails.subject %></:col>
   <:col :let={{_id, user__emails}} label="Content"><%= user__emails.content %></:col>
   <:col :let={{_id, user__emails}} label="Status"><%= user__emails.status %></:col>
-  <:col :let={{_id, user__emails}} label="From"><%= user__emails.from %></:col>
-  <:col :let={{_id, user__emails}} label="To"><%= user__emails.to %></:col>
+  <%!-- <:col :let={{_id, user__emails}} label="From"><%= user__emails.from_user %></:col> --%>
+  <:col :let={{_id, user__emails}} label="To"><%= user__emails.to_user %></:col>
   <:col :let={{_id, user__emails}} label="Date"><%= user__emails.inserted_at %></:col>
   <:action :let={{_id, user__emails}}>
     <div class="sr-only">

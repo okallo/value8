@@ -2,6 +2,7 @@ defmodule EmailsApp.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
   import EctoEnum
+  alias EmailsApp.MyEmail.User_Emails
 
   defenum(RolesEnum, :role, [
     :user,
@@ -18,8 +19,12 @@ defmodule EmailsApp.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
     field :role, RolesEnum, default: :user
+    has_many :sent_emails, User_Emails, foreign_key: :from_user, on_delete: :nothing
+    has_many :received_emails, User_Emails, foreign_key: :to_user, on_delete: :nothing
+
     timestamps()
   end
+
 
   @doc """
   A user changeset for registration.

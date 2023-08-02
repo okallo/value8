@@ -7,7 +7,6 @@ defmodule EmailsApp.MyEmail do
   alias EmailsApp.Repo
 
   alias EmailsApp.MyEmail.User_Emails
-  alias EmailsApp.Accounts
   # defp current_user_id(conn) do
   #     Guardian.Plug.current_resource(conn, :user_id)
   #   end
