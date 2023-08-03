@@ -102,6 +102,8 @@ defmodule EmailsAppWeb.Router do
       live "/group_user/:id/show/edit", Group_usersLive.Show, :edit
 
       live "/user_email", User_EmailsLive.Index, :index
+      live "/user_email/sent", User_EmailsLive.Sent, :sent
+      live "/user_email/outbox", User_EmailsLive.Failed, :failed
       live "/user_email/new", User_EmailsLive.Index, :new
       live "/user_email/:id/edit", User_EmailsLive.Index, :edit
       live "/user_email/:id", User_EmailsLive.Show, :show

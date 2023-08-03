@@ -1,18 +1,9 @@
-<%!-- <.header>
-  Listing User email
-  <:actions>
-    <.link patch={~p"/user_email/new"}>
-      <.button>Send New Email</.button>
-    </.link>
-  </:actions>
-</.header> --%>
-
 <.table
   id="user_email"
   rows={@user_email_stream.assigns.streams.user_email}
   row_click={fn {_id, user__emails} -> JS.navigate(~p"/user_email/#{user__emails}") end}
 >
-  <:col :let={{_id, user__emails}} label="From"><%= user__emails.from_user %></:col>
+  <:col :let={{_id, user__emails}} label="To"><%= user__emails.to_user %></:col>
   <:col :let={{_id, user__emails}} label="Content"><%= user__emails.content %></:col>
   <:col :let={{_id, user__emails}} label="Date"><%= user__emails.inserted_at %></:col>
   <:action :let={{_id, user__emails}}>

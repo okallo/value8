@@ -29,7 +29,7 @@ defmodule EmailsApp.MyEmail do
 
   def list_user_email_draft(email) do
     from(u in User_Emails,
-      where: u.from_user == ^email and u.status != "not_sent"
+      where: u.from_user == ^email and u.status != "sent"
     )
     |> Repo.all()
   end
