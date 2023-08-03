@@ -91,7 +91,7 @@ defmodule EmailsAppWeb.UserLive.Index do
     def atom_to_string(:gold), do: "Gold"
     def atom_to_string(_), do: "Unknown"
   end
-    def handle_event("change_role", %{"user_id" => user_id}, socket) do
+  def handle_event("change_role", %{"user_id" => user_id}, socket) do
     user = Repo.get!(User, user_id)
     updated_user = change_user_role(user)
     {:noreply, assign(socket, users: update_user_in_users(socket.assigns.users, updated_user))}
