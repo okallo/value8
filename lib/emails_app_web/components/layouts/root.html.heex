@@ -8,79 +8,329 @@
       <%= assigns[:page_title] || "EmailsApp" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <!-- Material Icons Link -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- Font Awesome Link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+      crossorigin="anonymous"
+    />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    </script>
+    <!-- from cdn -->
+    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js">
+    </script>
+    <script
+      type="module"
+      src="https://unpkg.com/@material-tailwind/html@latest/scripts/popover.js"
+    >
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.phoenix.min.js">
     </script>
   </head>
   <body class="bg-white antialiased">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_user do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-         <h5> <%= @current_user.first_name %> is Onine</h5>
-        </li>
+    <nav class="sticky inset-0 z-10 block h-max w-full max-w-full rounded-none border border-white/80 bg-white bg-opacity-80 py-2 px-4 text-white shadow-md backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
+      <div class="flex items-center text-gray-900">
+        <a href="/">
+          <img src={~p"/images/logo.svg"} width="36" />
+        </a>
+        <%= if @current_user do %>
+          <ul class="ml-auto mr-8 hidden items-center gap-6 lg:flex">
+            <li class="block p-1 font-sans text-sm font-normal leading-normal text-inherit antialiased">
+              <h5 class="flex items-center" href="#">
+                <%= @current_user.first_name %> is Onine
+              </h5>
+            </li>
+            <li class="block p-1 font-sans text-sm font-normal leading-normal text-inherit antialiased">
+              <a class="flex items-center" href={~p"/users/settings"}>
+                Settings
+              </a>
+            </li>
+          </ul>
+          <.link
+            href={~p"/users/log_out"}
+            method="delete"
+            class="middle none center hidden rounded-lg bg-gradient-to-tr from-red-600 to-red-400 py-2 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
+            type="button"
+            data-ripple-light="true"
+          >
+            <span>Log Out</span>
+          </.link>
+        <% else %>
+          <ul class="ml-auto mr-8 hidden items-center gap-6 lg:flex">
+            <li class="block p-1 font-sans text-sm font-normal leading-normal text-inherit antialiased">
+              <.link class="flex items-center" href={~p"/users/register"}>
+                Register
+              </.link>
+            </li>
+            <li class="block p-1 font-sans text-sm font-normal leading-normal text-inherit antialiased">
+              <.link class="flex items-center" href={~p"/users/log_in"}>
+                log in
+              </.link>
+            </li>
+          </ul>
+        <% end %>
+        <button
+          class="middle none relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] rounded-lg text-center font-sans text-xs font-medium uppercase text-blue-gray-500 transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
+          data-collapse-target="sticky-navar"
+        >
+          <span class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 transform">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16">
+              </path>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div
+        class="block h-0 w-full basis-full overflow-hidden text-blue-gray-900 transition-all duration-300 ease-in lg:hidden"
+        data-collapse="sticky-navar"
+      >
+        <ul class="mt-2 mb-4 flex flex-col gap-2 pb-2">
+          <%= if @current_user do %>
+            <li class="block p-1 font-sans text-sm font-normal leading-normal text-inherit antialiased">
+              <a class="flex items-center" href={~p"/users/settings"}>
+                Settings
+              </a>
+            </li>
+            <li class="block p-1 font-sans text-sm font-normal leading-normal text-inherit antialiased">
+              <.link
+                href={~p"/users/log_out"}
+                method="delete"
+                class="middle none center hidden rounded-lg bg-gradient-to-tr from-red-600 to-red-400 py-2 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
+                type="button"
+                data-ripple-light="true"
+              >
+                <span>Log Out</span>
+              </.link>
+            </li>
+          <% else %>
+            <li class="block p-1 font-sans text-sm font-normal leading-normal text-inherit antialiased">
+              <.link class="flex items-center" href={~p"/users/register"}>
+                Register
+              </.link>
+            </li>
+            <li class="block p-1 font-sans text-sm font-normal leading-normal text-inherit antialiased">
+              <.link class="flex items-center" href={~p"/users/log_in"}>
+                log in
+              </.link>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+    <%= if @current_user do %>
+      <div class="flex md:flex-row-reverse flex-wrap">
+        <div class="w-full md:w-5/6 bg-gray p-4 text-center "><%= @inner_content %></div>
+        <div class="w-full md:w-1/6 bg-gray p-4 text-center shadow-md backdrop-blur-2xl backdrop-saturate-200 ">
 
-        <li>
-          <.link
-            href={~p"/group"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Groups
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/contact"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Contacts
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Emails
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log out
-          </.link>
-        </li>
-      <% else %>
-        <li>
-          <.link
-            href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Register
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log in
-          </.link>
-        </li>
-      <% end %>
-    </ul>
-    <%= @inner_content %>
+          <ul class="relative mb-3">
+            <li>
+              <button
+                type="button"
+                class="border-slate-100 text-slate-700 rounded-t-1 group relative flex w-full cursor-pointer items-center border-b border-solid p-4 text-left font-semibold text-dark-500 transition-all ease-in"
+                aria-controls="dropdown-emails"
+                data-collapse-toggle="dropdown-emails"
+              >
+                <span class="flex-1 ml-3 text-left whitespace-nowrap">Emails</span>
+                <svg
+                  class="w-3 h-3 absolute right-0 pt-1 text-base transition-transform group-open:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+              <ul id="dropdown-emails" class="hidden py-2 space-y-2">
+                <li>
+                  <a
+                    href={~p"/user_email/new"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Compose
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={~p"/user_email"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Inbox
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={~p"/user_email/sent"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Sent
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={~p"/user_email/outbox"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    OutBox
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="border-slate-100 text-slate-700 rounded-t-1 group relative flex w-full cursor-pointer items-center border-b border-solid p-4 text-left font-semibold text-dark-500 transition-all ease-in"
+                aria-controls="dropdown-contacts"
+                data-collapse-toggle="dropdown-cantacts"
+              >
+                <span class="flex-1 ml-3 text-left whitespace-nowrap">Contacts</span>
+                <svg
+                  class="w-3 h-3 absolute right-0 pt-1 text-base transition-transform group-open:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+              <ul id="dropdown-contacts" class="hidden py-2 space-y-2">
+                <li>
+                  <a
+                    href={~p"/contact"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    My Contacts
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={~p"/contact/new"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Add Contact
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="border-slate-100 text-slate-700 rounded-t-1 group relative flex w-full cursor-pointer items-center border-b border-solid p-4 text-left font-semibold text-dark-500 transition-all ease-in"
+                aria-controls="dropdown-groups"
+                data-collapse-toggle="dropdown-groups"
+              >
+                <span class="flex-1 ml-3 text-left whitespace-nowrap">Groups</span>
+                <svg
+                  class="w-3 h-3 absolute right-0 pt-1 text-base transition-transform group-open:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+              <ul id="dropdown-groups" class="hidden py-2 space-y-2">
+                <li>
+                  <a
+                    href={~p"/group"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    My Groups
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={~p"/group/new"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Create Group
+                  </a>
+                </li>
+                <%!-- <li>
+                  <a
+                    href={~p"/contacts"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Grow Group
+                  </a>
+                </li> --%>
+              </ul>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="border-slate-100 text-slate-700 rounded-t-1 group relative flex w-full cursor-pointer items-center border-b border-solid p-4 text-left font-semibold text-dark-500 transition-all ease-in"
+                aria-controls="dropdown-users"
+                data-collapse-toggle="dropdown-users"
+              >
+                <span class="flex-1 ml-3 text-left whitespace-nowrap">Users</span>
+                <svg
+                  class="w-3 h-3 absolute right-0 pt-1 text-base transition-transform group-open:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+              <ul id="dropdown-users" class="hidden py-2 space-y-2">
+                <li>
+                  <a
+                    href={~p"/users"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    All Users
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    <% else %>
+      <%= @inner_content %>
+    <% end %>
   </body>
+  <footer class="flex w-full flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 border-t border-blue-gray-50 py-6 text-center md:justify-between">
+    <p class="block font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
+      © 2023 Email App
+    </p>
+  </footer>
 </html>

@@ -1,13 +1,24 @@
 defmodule EmailsApp.MyEmail.User_Emails do
   use Ecto.Schema
   import Ecto.Changeset
+  alias EmailsApp.Accounts.User
+  import EctoEnum
+ 
 
-  schema "user_email" do
-    field :status, :boolean, default: false
+  defenum(StatusEnum, [
+  "sent",
+  "draft",
+  "not_sent",
+  "reply"
+])
+
+
+  schema "user_emails" do
+    field :status, StatusEnum, default: :draft
     field :subject, :string
     field :content, :string
-    field :from, :id
-    field :to, :id
+    belongs_to :from, User, references: :email_address, type: :string, foreign_key: :from_user
+    belongs_to :to, User, references: :email_address, type: :string, foreign_key: :to_user
 
     timestamps()
   end
@@ -15,7 +26,11 @@ defmodule EmailsApp.MyEmail.User_Emails do
   @doc false
   def changeset(user__emails, attrs) do
     user__emails
-    |> cast(attrs, [:subject, :content, :status])
-    |> validate_required([:subject, :content, :status])
+    |> cast(attrs, [:subject, :content, :from_user, :to_user, :status])
+    |> validate_required([:subject, :content])
+  end
+
+  def update_status_changeset(user_email, status) do
+    changeset(user_email, %{status: status})
   end
 end

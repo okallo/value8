@@ -1,13 +1,17 @@
 defmodule EmailsAppWeb.User_EmailsLive.Index do
   use EmailsAppWeb, :live_view
-
   alias EmailsApp.MyEmail
   alias EmailsApp.MyEmail.User_Emails
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :user_email, MyEmail.list_user_email())}
+    current_user = socket.assigns.current_user
+    user_email_stream = stream(socket, :user_email, MyEmail.list_user_email_inbox(current_user.email_address))
+    {:ok, socket |> assign(:user_email_stream, user_email_stream)}
   end
+
+
+
 
   @impl true
   def handle_params(params, _url, socket) do
@@ -16,14 +20,18 @@ defmodule EmailsAppWeb.User_EmailsLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit User  emails")
+    |> assign(:page_title, "Edit User  email")
     |> assign(:user__emails, MyEmail.get_user__emails!(id))
   end
 
   defp apply_action(socket, :new, _params) do
+    
+    user = socket.assigns.current_user
+    
     socket
-    |> assign(:page_title, "New User  emails")
+    |> assign(:page_title, "Send New Email")
     |> assign(:user__emails, %User_Emails{})
+    |> assign(:current_user, user)
   end
 
   defp apply_action(socket, :index, _params) do

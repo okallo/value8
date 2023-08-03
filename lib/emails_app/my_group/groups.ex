@@ -12,7 +12,7 @@ defmodule EmailsApp.MyGroup.Groups do
   @doc false
   def changeset(groups, attrs) do
     groups
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :created_by])
     |> validate_required([:name])
   end
 end

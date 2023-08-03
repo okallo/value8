@@ -10,7 +10,7 @@
 
 <.table
   id="group"
-  rows={@streams.group}
+  rows={@groups_stream.assigns.streams.group}
   row_click={fn {_id, groups} -> JS.navigate(~p"/group/#{groups}") end}
 >
 if !is_nil(@col) && !Enum.empty?(@col) do
@@ -43,5 +43,6 @@ end
     action={@live_action}
     groups={@groups}
     patch={~p"/group"}
+    content={@current_user.id}
   />
 </.modal>

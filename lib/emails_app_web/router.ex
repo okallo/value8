@@ -82,9 +82,21 @@ defmodule EmailsAppWeb.Router do
       on_mount: [{EmailsAppWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
-
+      live "/users", UserLive.Index, :index
+     
+  #       if current_user.role == "superuser" do
+          
+  #       end
+  #     else if current_user.role == "admin" do
+        
+  #     end
+  #   else if current_user.role =="gold" do
+      
+  #   end
+  # else 
+  
       live "/contact", ContactsLive.Index, :index
-      live "/contact/new", ContactsLive.Index, :new
+      live "/contact/new", ContactsLive.Index, :add
       live "/contact/:id/edit", ContactsLive.Index, :edit
       live "/contact/:id", ContactsLive.Show, :show
       live "/contact/:id/show/edit", ContactsLive.Show, :edit
@@ -102,6 +114,8 @@ defmodule EmailsAppWeb.Router do
       live "/group_user/:id/show/edit", Group_usersLive.Show, :edit
 
       live "/user_email", User_EmailsLive.Index, :index
+      live "/user_email/sent", User_EmailsLive.Sent, :sent
+      live "/user_email/outbox", User_EmailsLive.Failed, :failed
       live "/user_email/new", User_EmailsLive.Index, :new
       live "/user_email/:id/edit", User_EmailsLive.Index, :edit
       live "/user_email/:id", User_EmailsLive.Show, :show

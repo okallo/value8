@@ -8,17 +8,30 @@ defmodule EmailsApp.MyEmail do
 
   alias EmailsApp.MyEmail.User_Emails
 
-  @doc """
-  Returns the list of user_email.
-
-  ## Examples
-
-      iex> list_user_email()
-      [%User_Emails{}, ...]
-
-  """
   def list_user_email do
     Repo.all(User_Emails)
+  end
+
+
+  def list_user_email_inbox(email) do
+    from(u in User_Emails,
+      where: u.to_user == ^email and u.status == "sent"
+    )
+    |> Repo.all()
+  end
+
+  def list_user_email_sent(email) do
+    from(u in User_Emails,
+      where: u.from_user == ^email and u.status == "sent"
+    )
+    |> Repo.all()
+  end
+
+  def list_user_email_draft(email) do
+    from(u in User_Emails,
+      where: u.from_user == ^email and u.status != "sent"
+    )
+    |> Repo.all()
   end
 
   @doc """
@@ -26,27 +39,12 @@ defmodule EmailsApp.MyEmail do
 
   Raises `Ecto.NoResultsError` if the User  emails does not exist.
 
-  ## Examples
-
-      iex> get_user__emails!(123)
-      %User_Emails{}
-
-      iex> get_user__emails!(456)
-      ** (Ecto.NoResultsError)
 
   """
   def get_user__emails!(id), do: Repo.get!(User_Emails, id)
 
   @doc """
   Creates a user__emails.
-
-  ## Examples
-
-      iex> create_user__emails(%{field: value})
-      {:ok, %User_Emails{}}
-
-      iex> create_user__emails(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
 
   """
   def create_user__emails(attrs \\ %{}) do
@@ -55,16 +53,11 @@ defmodule EmailsApp.MyEmail do
     |> Repo.insert()
   end
 
+ 
+
   @doc """
   Updates a user__emails.
 
-  ## Examples
-
-      iex> update_user__emails(user__emails, %{field: new_value})
-      {:ok, %User_Emails{}}
-
-      iex> update_user__emails(user__emails, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
 
   """
   def update_user__emails(%User_Emails{} = user__emails, attrs) do
@@ -76,14 +69,6 @@ defmodule EmailsApp.MyEmail do
   @doc """
   Deletes a user__emails.
 
-  ## Examples
-
-      iex> delete_user__emails(user__emails)
-      {:ok, %User_Emails{}}
-
-      iex> delete_user__emails(user__emails)
-      {:error, %Ecto.Changeset{}}
-
   """
   def delete_user__emails(%User_Emails{} = user__emails) do
     Repo.delete(user__emails)
@@ -91,11 +76,6 @@ defmodule EmailsApp.MyEmail do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user__emails changes.
-
-  ## Examples
-
-      iex> change_user__emails(user__emails)
-      %Ecto.Changeset{data: %User_Emails{}}
 
   """
   def change_user__emails(%User_Emails{} = user__emails, attrs \\ %{}) do
