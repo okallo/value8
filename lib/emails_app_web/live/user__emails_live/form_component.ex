@@ -2,7 +2,6 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
   use EmailsAppWeb, :live_component
 
   alias EmailsApp.MyEmail
-  alias EmailsApp.MyEmail.User_Emails
   alias EmailsApp.Accounts.UserNotifier
 
   @impl true
@@ -20,7 +19,6 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         phx-submit="save"
         phx-change="validate"
       >
-        <%!-- <.input field={@form[:status]} type="text" label="status" readonly /> --%>
         <.input field={@form[:to_user]} type="text" label="To" />
         <.input
           field={@form[:from_user]}
@@ -61,10 +59,7 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
   end
 
   def handle_event("save", %{"user__emails" => emails_params}, socket) do
-   # status_enum = EmailsApp.MyEmail.User_Emails.StatusEnum
-    
-    IO.inspect(emails_params)
-
+   
     case UserNotifier.send_email(emails_params) do
       {:ok, _email} ->
         params_with_status = Map.put(emails_params, "status", "sent")
@@ -76,21 +71,6 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
     end
   end
 
-  # defp save_user__emails(socket, action, params) do
-
-  #   case MyEmail.create_user__emails(params) do
-  #      {:ok, user__emails} ->
-  #       notify_parent({:saved, user__emails})
-
-  #       {:noreply,
-  #        socket
-  #        |> put_flash(:info, "User  emails updated successfully")
-  #        |> push_patch(to: socket.assigns.patch)}
-
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       {:noreply, assign_form(socket, changeset)}
-  #   end
-  # end
 
   defp save_user__emails(socket, :edit, user__emails_params) do
     case MyEmail.update_user__emails(socket.assigns.user__emails, user__emails_params) do

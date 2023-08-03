@@ -7,30 +7,31 @@ defmodule EmailsApp.MyEmail do
   alias EmailsApp.Repo
 
   alias EmailsApp.MyEmail.User_Emails
-  # defp current_user_id(conn) do
-  #     Guardian.Plug.current_resource(conn, :user_id)
-  #   end
-  @doc """
-  Returns the list of user_email.
 
-  """
-
-  #email = "user@example.com"
   def list_user_email do
     Repo.all(User_Emails)
   end
+
+
   def list_user_email_inbox(email) do
-    query =
-      from e in User_Emails,
-      where: e.to_user == ^email
-    Repo.all(query)
+    from(u in User_Emails,
+      where: u.to_user == ^email and u.status == "sent"
+    )
+    |> Repo.all()
   end
 
-   def list_user_email_sent(email) do
-    query =
-      from e in User_Emails,
-      where: e.from_user == ^email
-    Repo.all(query)
+  def list_user_email_sent(email) do
+    from(u in User_Emails,
+      where: u.from_user == ^email and u.status == "sent"
+    )
+    |> Repo.all()
+  end
+
+  def list_user_email_draft(email) do
+    from(u in User_Emails,
+      where: u.from_user == ^email and u.status != "sent"
+    )
+    |> Repo.all()
   end
 
   @doc """
