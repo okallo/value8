@@ -7,8 +7,9 @@ defmodule EmailsAppWeb.GroupsLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    
-    {:ok, stream(socket, :group, MyGroup.list_group())}
+    groups_stream = stream(socket, :group, MyGroup.list_group())
+    {:ok, socket |> assign(:groups_stream, groups_stream)}
+    #{:ok, stream(socket, :group, MyGroup.list_group())}
     # {:ok, assign(socket, :current_user, Accounts.get_user())}
   end
 

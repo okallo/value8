@@ -82,9 +82,10 @@ defmodule EmailsAppWeb.Router do
       on_mount: [{EmailsAppWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
+     
 
       live "/contact", ContactsLive.Index, :index
-      live "/contact/new", ContactsLive.Index, :new
+      live "/contact/new", ContactsLive.Index, :add
       live "/contact/:id/edit", ContactsLive.Index, :edit
       live "/contact/:id", ContactsLive.Show, :show
       live "/contact/:id/show/edit", ContactsLive.Show, :edit

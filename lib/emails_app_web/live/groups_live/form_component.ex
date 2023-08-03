@@ -11,7 +11,6 @@ defmodule EmailsAppWeb.GroupsLive.FormComponent do
         <%= @title %>
         <:subtitle>Use this form to manage groups records in your database.</:subtitle>
       </.header>
-
       <.simple_form
         for={@form}
         id="groups-form"
@@ -20,6 +19,7 @@ defmodule EmailsAppWeb.GroupsLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
+        <.input field={@form[:created_by]} type="text" label="" readonly value={@content}/>
         <:actions>
           <.button phx-disable-with="Saving...">Save Groups</.button>
         </:actions>
@@ -39,6 +39,7 @@ defmodule EmailsAppWeb.GroupsLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"groups" => groups_params}, socket) do
+  
     changeset =
       socket.assigns.groups
       |> MyGroup.change_groups(groups_params)

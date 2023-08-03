@@ -1,7 +1,6 @@
 defmodule EmailsAppWeb.User_EmailsLive.Failed do
   use EmailsAppWeb, :live_view
   alias EmailsApp.MyEmail
-  alias EmailsApp.MyEmail.User_Emails
 
   @impl true
   def mount(_params, _session, socket) do
