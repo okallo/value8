@@ -1,12 +1,15 @@
 defmodule EmailsAppWeb.GroupsLive.Index do
   use EmailsAppWeb, :live_view
+  #import Phoenix.LiveView
 
   alias EmailsApp.MyGroup
   alias EmailsApp.MyGroup.Groups
 
   @impl true
   def mount(_params, _session, socket) do
+    
     {:ok, stream(socket, :group, MyGroup.list_group())}
+    # {:ok, assign(socket, :current_user, Accounts.get_user())}
   end
 
   @impl true

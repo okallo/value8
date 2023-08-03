@@ -9,7 +9,7 @@
 
 <.table
   id="user_email"
-  rows={@streams.user_email}
+  rows={@user_email_stream.assigns.streams.user_email}
   row_click={fn {_id, user__emails} -> JS.navigate(~p"/user_email/#{user__emails}") end}
 >
   <:col :let={{_id, user__emails}} label="Subject"><%= user__emails.subject %></:col>
@@ -34,6 +34,17 @@
   </:action>
 </.table>
 
+<%!-- <.modal :if={@live_action in [:new, :edit]} id="user__emails-modal" show on_cancel={JS.patch(~p"/user_email")}>
+  <.live_component
+    module={EmailsAppWeb.User_EmailsLive.FormComponent}
+    id={@user__emails.id || :new}
+    title={@page_title}
+    action={@live_action}
+    user__emails={@user__emails}
+    patch={~p"/user_email"}
+    content={@user_email_stream.assigns.current_user}
+  />
+</.modal> --%>
 <.modal :if={@live_action in [:new, :edit]} id="user__emails-modal" show on_cancel={JS.patch(~p"/user_email")}>
   <.live_component
     module={EmailsAppWeb.User_EmailsLive.FormComponent}
@@ -42,5 +53,10 @@
     action={@live_action}
     user__emails={@user__emails}
     patch={~p"/user_email"}
+    content={@user_email_stream.assigns.current_user.email_address}
   />
 </.modal>
+
+
+
+

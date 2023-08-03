@@ -14,10 +14,22 @@ defmodule EmailsApp.MyEmail do
   Returns the list of user_email.
 
   """
+
+  #email = "user@example.com"
   def list_user_email do
+    Repo.all(User_Emails)
+  end
+  def list_user_email_inbox(email) do
     query =
       from e in User_Emails,
-      where: e.to_user == "clayne.co25@gmail.com"
+      where: e.to_user == ^email
+    Repo.all(query)
+  end
+
+   def list_user_email_sent(email) do
+    query =
+      from e in User_Emails,
+      where: e.from_user == ^email
     Repo.all(query)
   end
 
@@ -39,6 +51,8 @@ defmodule EmailsApp.MyEmail do
     |> User_Emails.changeset(attrs)
     |> Repo.insert()
   end
+
+ 
 
   @doc """
   Updates a user__emails.
