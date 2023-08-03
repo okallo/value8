@@ -196,6 +196,49 @@
               <button
                 type="button"
                 class="border-slate-100 text-slate-700 rounded-t-1 group relative flex w-full cursor-pointer items-center border-b border-solid p-4 text-left font-semibold text-dark-500 transition-all ease-in"
+                aria-controls="dropdown-contacts"
+                data-collapse-toggle="dropdown-cantacts"
+              >
+                <span class="flex-1 ml-3 text-left whitespace-nowrap">Contacts</span>
+                <svg
+                  class="w-3 h-3 absolute right-0 pt-1 text-base transition-transform group-open:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </button>
+              <ul id="dropdown-contacts" class="hidden py-2 space-y-2">
+                <li>
+                  <a
+                    href={~p"/contact"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    My Contacts
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={~p"/contact/new"}
+                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    Add Contact
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="border-slate-100 text-slate-700 rounded-t-1 group relative flex w-full cursor-pointer items-center border-b border-solid p-4 text-left font-semibold text-dark-500 transition-all ease-in"
                 aria-controls="dropdown-groups"
                 data-collapse-toggle="dropdown-groups"
               >
@@ -219,7 +262,7 @@
               <ul id="dropdown-groups" class="hidden py-2 space-y-2">
                 <li>
                   <a
-                    href="#"
+                    href={~p"/group"}
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     My Groups
@@ -227,20 +270,20 @@
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href={~p"/group/new"}
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Create Group
                   </a>
                 </li>
-                <li>
+                <%!-- <li>
                   <a
-                    href="#"
+                    href={~p"/contacts"}
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Grow Group
                   </a>
-                </li>
+                </li> --%>
               </ul>
             </li>
             <li>
@@ -270,34 +313,10 @@
               <ul id="dropdown-users" class="hidden py-2 space-y-2">
                 <li>
                   <a
-                    href="#"
+                    href={~p"/users"}
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     All Users
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    Gold Users
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    Administrators
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    Super Users
                   </a>
                 </li>
               </ul>

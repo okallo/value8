@@ -18,6 +18,20 @@ defmodule EmailsApp.Accounts do
     Repo.get_by(User, email_address: email)
   end
 
+  def list_user_role(role) do
+    from(u in User,
+      where: u.role != ^role
+    )
+    |> Repo.all()
+  end
+
+
+  def list_users(email) do
+     from(u in User,
+      where: u.email_address != ^email
+    )
+    |> Repo.all()
+  end
   @doc """
   Gets a user by email and password.
 
