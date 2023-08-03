@@ -2,7 +2,6 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
   use EmailsAppWeb, :live_component
 
   alias EmailsApp.MyEmail
-  alias EmailsApp.MyEmail.User_Emails
   alias EmailsApp.Accounts.UserNotifier
 
   @impl true
@@ -20,7 +19,6 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         phx-submit="save"
         phx-change="validate"
       >
-        <%!-- <.input field={@form[:status]} type="text" label="status" readonly /> --%>
         <.input field={@form[:to_user]} type="text" label="To" />
         <.input
           field={@form[:from_user]}
