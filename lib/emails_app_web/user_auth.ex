@@ -180,7 +180,7 @@ defmodule EmailsAppWeb.UserAuth do
     end)
   end
 
-  @doc """
+  @doc """  
   Used for routes that require the user to not be authenticated.
   """
   def redirect_if_user_is_authenticated(conn, _opts) do

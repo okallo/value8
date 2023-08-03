@@ -31,7 +31,6 @@ defmodule EmailsAppWeb.GroupsLive.FormComponent do
   @impl true
   def update(%{groups: groups} = assigns, socket) do
     changeset = MyGroup.change_groups(groups)
-
     {:ok,
      socket
      |> assign(assigns)
