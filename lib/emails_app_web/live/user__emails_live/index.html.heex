@@ -12,17 +12,14 @@
   rows={@user_email_stream.assigns.streams.user_email}
   row_click={fn {_id, user__emails} -> JS.navigate(~p"/user_email/#{user__emails}") end}
 >
-  <:col :let={{_id, user__emails}} label="Subject"><%= user__emails.subject %></:col>
+  <:col :let={{_id, user__emails}} label="From"><%= user__emails.from_user %></:col>
   <:col :let={{_id, user__emails}} label="Content"><%= user__emails.content %></:col>
-  <:col :let={{_id, user__emails}} label="Status"><%= user__emails.status %></:col>
-  <%!-- <:col :let={{_id, user__emails}} label="From"><%= user__emails.from_user %></:col> --%>
-  <:col :let={{_id, user__emails}} label="To"><%= user__emails.to_user %></:col>
   <:col :let={{_id, user__emails}} label="Date"><%= user__emails.inserted_at %></:col>
   <:action :let={{_id, user__emails}}>
     <div class="sr-only">
       <.link navigate={~p"/user_email/#{user__emails}"}>Show</.link>
     </div>
-    <%!-- <.link patch={~p"/user_email/#{user__emails}/edit"}>Edit</.link> --%>
+    <%!-- <.link patch={~p"/user_email/#{user__emails}/edit"}>Reply</.link> --%>
   </:action>
   <:action :let={{id, user__emails}}>
     <.link
@@ -34,18 +31,12 @@
   </:action>
 </.table>
 
-<%!-- <.modal :if={@live_action in [:new, :edit]} id="user__emails-modal" show on_cancel={JS.patch(~p"/user_email")}>
-  <.live_component
-    module={EmailsAppWeb.User_EmailsLive.FormComponent}
-    id={@user__emails.id || :new}
-    title={@page_title}
-    action={@live_action}
-    user__emails={@user__emails}
-    patch={~p"/user_email"}
-    content={@user_email_stream.assigns.current_user}
-  />
-</.modal> --%>
-<.modal :if={@live_action in [:new, :edit]} id="user__emails-modal" show on_cancel={JS.patch(~p"/user_email")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="user__emails-modal"
+  show
+  on_cancel={JS.patch(~p"/user_email")}
+>
   <.live_component
     module={EmailsAppWeb.User_EmailsLive.FormComponent}
     id={@user__emails.id || :new}
@@ -56,7 +47,3 @@
     content={@user_email_stream.assigns.current_user.email_address}
   />
 </.modal>
-
-
-
-

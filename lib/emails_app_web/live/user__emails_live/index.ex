@@ -5,7 +5,8 @@ defmodule EmailsAppWeb.User_EmailsLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    user_email_stream = stream(socket, :user_email, MyEmail.list_user_email())
+    current_user = socket.assigns.current_user
+    user_email_stream = stream(socket, :user_email, MyEmail.list_user_email_inbox(current_user.email_address))
     {:ok, socket |> assign(:user_email_stream, user_email_stream)}
   end
 

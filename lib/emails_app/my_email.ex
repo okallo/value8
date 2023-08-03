@@ -14,11 +14,24 @@ defmodule EmailsApp.MyEmail do
 
 
   def list_user_email_inbox(email) do
-    Repo.get_by(User_Emails, to_user: email)
+    from(u in User_Emails,
+      where: u.to_user == ^email and u.status == "sent"
+    )
+    |> Repo.all()
   end
-  
+
   def list_user_email_sent(email) do
-    Repo.get_by(User_Emails, from_user: email)
+    from(u in User_Emails,
+      where: u.from_user == ^email and u.status == "sent"
+    )
+    |> Repo.all()
+  end
+
+  def list_user_email_draft(email) do
+    from(u in User_Emails,
+      where: u.from_user == ^email and u.status != "not_sent"
+    )
+    |> Repo.all()
   end
 
   @doc """
