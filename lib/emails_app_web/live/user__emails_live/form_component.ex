@@ -22,8 +22,7 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         <.input field={@form[:to_user]} type="text" label="To" />
         <.input
           field={@form[:from_user]}
-          type="text"
-          label="From"
+          type="hidden"
           value={@content}
           readonly
           class="invisible"

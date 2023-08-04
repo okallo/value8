@@ -83,18 +83,7 @@ defmodule EmailsAppWeb.Router do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
       live "/users", UserLive.Index, :index
-     
-  #       if current_user.role == "superuser" do
-          
-  #       end
-  #     else if current_user.role == "admin" do
-        
-  #     end
-  #   else if current_user.role =="gold" do
-      
-  #   end
-  # else 
-  
+   
       live "/contact", ContactsLive.Index, :index
       live "/contact/new", ContactsLive.Index, :add
       live "/contact/:id/edit", ContactsLive.Index, :edit

@@ -117,6 +117,15 @@ defmodule EmailsApp.Accounts.User do
     end
   end
 
+  def role_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:role])
+    |> case do
+      %{changes: %{role: _}} = changeset -> changeset
+      %{} = changeset -> add_error(changeset, :role, "did not change")
+    end
+  end
+
   @doc """
   A user changeset for changing the password.
 
