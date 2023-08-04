@@ -6,6 +6,6 @@ defmodule EmailsAppWeb.ContactsLive.Add do
   @impl true
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_user
-    {:ok, stream(socket, :contact, Accounts.list_users(current_user.email_address))}
+    {:ok, stream(socket, :users, Accounts.list_users(current_user.email_address))}
   end
 end
