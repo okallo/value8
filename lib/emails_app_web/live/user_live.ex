@@ -2,6 +2,7 @@ defmodule EmailsAppWeb.UserLive.Index do
   use EmailsAppWeb, :live_view
   alias EmailsApp.Accounts.User
   alias EmailsApp.Accounts
+  alias EmailsApp.Repo
 
   #   def mount(_params, _session, socket) do
   #     users = Repo.all(User)
@@ -26,7 +27,7 @@ defmodule EmailsAppWeb.UserLive.Index do
   end
 
  def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="container mx-auto mt-6">
       <h2 class="text-2xl font-semibold mb-4">List of Users</h2>
       <div class="mb-4">
@@ -60,9 +61,12 @@ defmodule EmailsAppWeb.UserLive.Index do
               <td class="p-2"><%= user.last_name %></td>
               <td class="p-2"><%= user.role %></td>
               <td class="p-2">
+                <.form  phx-change="change_role">
+                <.input type="hidden" name="user_id" value={user.id}/>
                 <select
                   class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-blue-300"
-                  phx-change="change_role"
+             
+                  name="role"
                 >
                   <option value=""></option>
                   <option value="user">User</option>
@@ -70,6 +74,7 @@ defmodule EmailsAppWeb.UserLive.Index do
                   <option value="superuser">Superuser</option>
                   <option value="gold">Gold</option> 
                 </select>
+                </.form>
               </td>
             </tr>
           <% end %>
@@ -98,16 +103,21 @@ defmodule EmailsAppWeb.UserLive.Index do
     def atom_to_string(:gold), do: "Gold"
     def atom_to_string(_), do: "Unknown"
   end
-  def handle_event("change_role", %{"user_id" => user_id}, socket) do
+  def handle_event("change_role", params, socket) do
+    role = params["role"]
+    user_id = params["user_id"]
+    IO.inspect(params["user_id"])
     user = Repo.get!(User, user_id)
-    updated_user = change_user_role(user)
+    updated_user = change_user_role(user, role)
     {:noreply, assign(socket, users: update_user_in_users(socket.assigns.users, updated_user))}
+    
+    #{:noreply, socket}
   end
 
- defp change_user_role(user) do
-    new_role = :admin  # Change this to the desired new role
+ defp change_user_role(user, role) do
+    new_role = role  # Change this to the desired new role
     %{user | role: new_role}
-    |> User.changeset(%{role: new_role})
+    |> User.role_changeset(%{role: new_role})
     |> Repo.update!()
   end
 
