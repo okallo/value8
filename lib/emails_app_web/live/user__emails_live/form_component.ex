@@ -30,7 +30,7 @@ defmodule EmailsAppWeb.User_EmailsLive.FormComponent do
         <.input field={@form[:subject]} type="text" label="Subject" />
         <.input type="text" field={@form[:content]} label="Content" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save User  emails</.button>
+          <.button phx-disable-with="Saving...">Send Email</.button>
         </:actions>
       </.simple_form>
     </div>

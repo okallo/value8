@@ -13,7 +13,7 @@
   rows={@groups_stream.assigns.streams.group}
   row_click={fn {_id, groups} -> JS.navigate(~p"/group/#{groups}") end}
 >
-if !is_nil(@col) && !Enum.empty?(@col) do
+
  <:col :let={{_id, groups}} label="Name"><%= groups.name %></:col>
   <:action :let={{_id, groups}}>
     <div class="sr-only">
@@ -29,9 +29,7 @@ if !is_nil(@col) && !Enum.empty?(@col) do
       Delete
     </.link>
   </:action>
-else
- <:col>No data</:col>
-end
+
  
 </.table>
 
