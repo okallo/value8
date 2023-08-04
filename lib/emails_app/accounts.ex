@@ -311,6 +311,13 @@ defmodule EmailsApp.Accounts do
       ** (Ecto.NoResultsError)
 
   """
+  def get_contacts_users(id) do
+    from(p in Contacts,
+      where: p.user_id == ^id
+    )
+    |> Repo.all()
+  end
+
   def get_contacts!(id), do: Repo.get!(Contacts, id)
 
   @doc """

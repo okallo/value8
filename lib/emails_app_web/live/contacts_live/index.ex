@@ -6,7 +6,16 @@ defmodule EmailsAppWeb.ContactsLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :contact, Accounts.list_contact())}
+    current_user = socket.assigns.current_user
+    contats = Accounts.get_contacts_users(current_user.id)
+
+    contacts =
+      Enum.map(contats, fn item ->
+        Accounts.get_user!(item.contact_id)
+      end)
+
+    IO.inspect(contacts)
+    {:ok, stream(socket, :contact,contacts )}
   end
 
   @impl true

@@ -6,18 +6,24 @@
     </.link>
   </:actions>
 </.header>
-
+<%!-- <div>
+<%= {@streams.contact}%>
+</div> --%>
 <.table
   id="contact"
   rows={@streams.contact}
-  row_click={fn {_id, contacts} -> JS.navigate(~p"/contact/#{contacts}") end}
+  row_click={fn {_id, contact} -> JS.navigate(~p"/contact/#{contact}") end}
 >
-  if !is_nil(@col) && !Enum.empty?(@col) do
-  <:action :let={{_id, contacts}}>
+  <:col :let={{_id, contact}} label="First Name"><%= contact.first_name %></:col>
+  <:col :let={{_id, contact}} label="Last Name"><%= contact.last_name %></:col>
+  <:col :let={{_id, contact}} label="Email Address"><%= contact.email_address %></:col>
+  <:col :let={{_id, contact}} label="Location"><%= contact.msisdn %></:col>
+  <:col :let={{_id, contact}} label="Date"><%= contact.inserted_at %></:col>
+  <:action :let={{_id, contact}}>
     <div class="sr-only">
-      <.link navigate={~p"/contact/#{contacts}"}>Show</.link>
+      <.link navigate={~p"/contact/#{contact}"}>Show</.link>
     </div>
-    <.link patch={~p"/contact/#{contacts}/edit"}>Edit</.link>
+    <.link patch={~p"/contact/#{contact}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, contacts}}>
     <.link
@@ -27,9 +33,6 @@
       Delete
     </.link>
   </:action>
-  else
-  <:col>No data</:col>
-  end
 </.table>
 
 <.modal

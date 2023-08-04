@@ -101,7 +101,7 @@ defmodule EmailsAppWeb.Router do
       live "/users", UserLive.Index, :index
 
       live "/contact", ContactsLive.Index, :index
-      live "/contact/new", ContactsLive.Index, :add
+      live "/contact/new", ContactsLive.Index, :new
       live "/contact/:id/edit", ContactsLive.Index, :edit
       live "/contact/:id", ContactsLive.Show, :show
       live "/contact/:id/show/edit", ContactsLive.Show, :edit

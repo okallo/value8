@@ -1,4 +1,4 @@
-defmodule EmailsAppWeb.ContactsLive.Index do
+defmodule EmailsAppWeb.ContactsLive.Add do
   use EmailsAppWeb, :live_view
 
   alias EmailsApp.Accounts
