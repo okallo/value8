@@ -18,20 +18,34 @@ defmodule EmailsApp.Accounts do
     Repo.get_by(User, email_address: email)
   end
 
+  # def list_user_role(role) do
+  #   if role != "" do
+  #   from(u in User,
+  #     where: u.role == ^role
+  #   )
+  #   |> Repo.all()
+  #   else  do
+  #    Repo.all(User)
+  #   end
+  # end
+  def list_user_role("") do
+    Repo.all(User)
+  end
+
   def list_user_role(role) do
     from(u in User,
-      where: u.role != ^role
+      where: u.role == ^role
     )
     |> Repo.all()
   end
 
-
   def list_users(email) do
-     from(u in User,
+    from(u in User,
       where: u.email_address != ^email
     )
     |> Repo.all()
   end
+
   @doc """
   Gets a user by email and password.
 
@@ -98,7 +112,7 @@ defmodule EmailsApp.Accounts do
   If the token matches, the user email is updated and the token is deleted.
   The confirmed_at date is also updated to the current time.
   """
-   def update_user_email(user, token) do
+  def update_user_email(user, token) do
     context = "change:#{user.email_address}"
 
     with {:ok, query} <- UserToken.verify_change_email_token_query(token, context),
