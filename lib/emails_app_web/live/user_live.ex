@@ -32,9 +32,10 @@ defmodule EmailsAppWeb.UserLive.Index do
       <h2 class="text-2xl font-semibold mb-4">List of Users</h2>
       <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700">Filter by Role:</label>
+        <.form phx-change="filter_roles">
         <select
           class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-blue-300"
-          phx-change="filter_roles"
+          name="role"
         >
           <option value="">All Roles</option>
           <option value="user">User</option>
@@ -42,6 +43,7 @@ defmodule EmailsAppWeb.UserLive.Index do
           <option value="superuser">Superuser</option>
           <option value="gold">Gold</option>
         </select>
+        </.form>
       </div>
       <table class="w-full border">
         <thead>
@@ -84,8 +86,12 @@ defmodule EmailsAppWeb.UserLive.Index do
     """
   end
 
-  def handle_event("filter_roles", %{"role" => role}, socket) do
-    {:noreply, assign(socket, selected_role: role)}
+  def handle_event("filter_roles", param, socket) do
+    role = param["role"]
+    IO.inspect(role)
+    users = Accounts.list_user_role(role)
+    {:noreply, assign(socket, users: users, selected_role: role)}
+    #{:noreply, assign(socket, selected_role: role)}
   end
 
   defp role_match?(%User{role: role}, selected_role) do
@@ -106,7 +112,6 @@ defmodule EmailsAppWeb.UserLive.Index do
   def handle_event("change_role", params, socket) do
     role = params["role"]
     user_id = params["user_id"]
-    IO.inspect(params["user_id"])
     user = Repo.get!(User, user_id)
     updated_user = change_user_role(user, role)
     {:noreply, assign(socket, users: update_user_in_users(socket.assigns.users, updated_user))}
