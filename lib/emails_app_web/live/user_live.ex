@@ -49,7 +49,7 @@ defmodule EmailsAppWeb.UserLive.Index do
             <th class="p-2">First Name</th>
             <th class="p-2">Last Name</th>
             <th class="p-2">Role</th>
-            <th class="p-2">Action</th>
+            <th class="p-2">Change Role</th>
           </tr>
         </thead>
         <tbody>
@@ -60,9 +60,16 @@ defmodule EmailsAppWeb.UserLive.Index do
               <td class="p-2"><%= user.last_name %></td>
               <td class="p-2"><%= user.role %></td>
               <td class="p-2">
-                <button class="px-2 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none" phx-click="change_role" phx-value-user-id="<%= user.id %>">
-                  Change Role
-                </button>
+                <select
+                  class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-blue-300"
+                  phx-change="change_role"
+                >
+                  <option value=""></option>
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                  <option value="superuser">Superuser</option>
+                  <option value="gold">Gold</option> 
+                </select>
               </td>
             </tr>
           <% end %>
