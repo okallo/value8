@@ -19,7 +19,7 @@ defmodule EmailsAppWeb.GroupsLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:created_by]} type="text" label="" readonly value={@content}/>
+        <.input field={@form[:created_by]} type="hidden" label="" readonly value={@content}/>
         <:actions>
           <.button phx-disable-with="Saving...">Save Groups</.button>
         </:actions>

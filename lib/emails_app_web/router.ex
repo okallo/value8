@@ -2,6 +2,7 @@ defmodule EmailsAppWeb.Router do
   use EmailsAppWeb, :router
 
   import EmailsAppWeb.UserAuth
+  # import EmailsAppWeb.EnsureRolePlug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,6 +13,22 @@ defmodule EmailsAppWeb.Router do
     plug :put_secure_browser_headers
     plug :fetch_current_user
   end
+
+  # pipeline :superuser do
+  #   plug EnsureRolePlug, [:superuser]
+  # end
+
+  # pipeline :admin do
+  #   plug EnsureRolePlug, [:admin, :superuser]
+  # end
+
+  # pipeline :user do
+  #   plug EnsureRolePlug, [:admin, :superuser, :user, :gold]
+  # end
+
+  # pipeline :gold do
+  #   plug EnsureRolePlug, [:admin, :superuser, :gold]
+  # end
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -56,8 +73,6 @@ defmodule EmailsAppWeb.Router do
       live "/users/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
       live "/users/reset_password/:token", UserResetPasswordLive, :edit
-
-
     end
 
     post "/users/log_in", UserSessionController, :create
@@ -65,6 +80,7 @@ defmodule EmailsAppWeb.Router do
 
   scope "/", EmailsAppWeb do
     pipe_through [:browser, :require_authenticated_user]
+    #pipe_through [:browser, :require_authenticated_agent, :user]
 
     live_session :require_authenticated_user,
       on_mount: [{EmailsAppWeb.UserAuth, :ensure_authenticated}] do
@@ -83,7 +99,7 @@ defmodule EmailsAppWeb.Router do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
       live "/users", UserLive.Index, :index
-   
+
       live "/contact", ContactsLive.Index, :index
       live "/contact/new", ContactsLive.Index, :add
       live "/contact/:id/edit", ContactsLive.Index, :edit
@@ -109,7 +125,6 @@ defmodule EmailsAppWeb.Router do
       live "/user_email/:id/edit", User_EmailsLive.Index, :edit
       live "/user_email/:id", User_EmailsLive.Show, :show
       live "/user_email/:id/show/edit", User_EmailsLive.Show, :edit
-
     end
   end
 end
