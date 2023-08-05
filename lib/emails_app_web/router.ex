@@ -80,7 +80,7 @@ defmodule EmailsAppWeb.Router do
 
   scope "/", EmailsAppWeb do
     pipe_through [:browser, :require_authenticated_user]
-    #pipe_through [:browser, :require_authenticated_agent, :user]
+    # pipe_through [:browser, :require_authenticated_agent, :user]
 
     live_session :require_authenticated_user,
       on_mount: [{EmailsAppWeb.UserAuth, :ensure_authenticated}] do
@@ -100,11 +100,18 @@ defmodule EmailsAppWeb.Router do
       live "/users/confirm", UserConfirmationInstructionsLive, :new
       live "/users", UserLive.Index, :index
 
-      live "/contact", ContactsLive.Index, :index
-      live "/contact/new", ContactsLive.Index, :index
-      live "/contact/:id/edit", ContactsLive.Index, :edit
-      live "/contact/:id", ContactsLive.Show, :show
-      live "/contact/:id/show/edit", ContactsLive.Show, :edit
+      # live "/contact", ContactsLive.Index, :index
+      # live "/contact/new", ContactsLive.Index, :index
+      # live "/contact/:id/edit", ContactsLive.Index, :edit
+      # live "/contact/:id", ContactsLive.Show, :show
+      # live "/contact/:id/show/edit", ContactsLive.Show, :edit
+
+      live "/contacts", ContactLive.Index, :index
+      live "/contacts/new", ContactLive.Index, :new
+      live "/contacts/:id/edit", ContactLive.Index, :edit
+
+      live "/contacts/:id", ContactLive.Show, :show
+      live "/contacts/:id/show/edit", ContactLive.Show, :edit
 
       live "/group", GroupsLive.Index, :index
       live "/group/new", GroupsLive.Index, :new

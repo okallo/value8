@@ -56,4 +56,19 @@ defmodule EmailsApp.AccountsFixtures do
 
     contacts
   end
+
+  @doc """
+  Generate a contact.
+  """
+  def contact_fixture(attrs \\ %{}) do
+    {:ok, contact} =
+      attrs
+      |> Enum.into(%{
+        full_name: "some full_name",
+        email_address: "some email_address"
+      })
+      |> EmailsApp.Accounts.create_contact()
+
+    contact
+  end
 end

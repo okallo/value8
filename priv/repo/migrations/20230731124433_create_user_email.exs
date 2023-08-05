@@ -7,7 +7,7 @@ defmodule EmailsApp.Repo.Migrations.CreateUserEmail do
       add :content, :text
       add :status, :status, null: false
       add :from_user, references(:users, column: :email_address, type: :citext, on_delete: :nothing)
-      add :to_user, references(:users, column: :email_address, type: :citext, on_delete: :nothing)
+      add :to_user, references(:contacts, column: :email_address, type: :citext, on_delete: :nothing)
       timestamps()
     end
   end
